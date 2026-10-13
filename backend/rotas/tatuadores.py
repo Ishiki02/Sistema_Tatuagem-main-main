@@ -13,14 +13,15 @@ router = APIRouter()
 
 # Modelo de dados — define os campos que o tatuador deve ter
 class Tatuador(BaseModel):
-    nometatuador: str                      # obrigatório
-    cpf: str                               # obrigatório
-    email: Optional[str] = None            # opcional
-    telefone: Optional[str] = None         # opcional
-    datacontratacao: Optional[str] = None  # opcional
-    idsenioridade: int                     # obrigatório — aponta para a tabela senioridade
+    nometatuador: str
+    cpf: str
+    email: Optional[str] = None
+    telefone: Optional[str] = None
+    datacontratacao: Optional[str] = None
+    idsenioridade: int
 
-    @router.get("/tatuadores")
+
+@router.get("/tatuadores")
 def listar_tatuadores():
     conn = conectar()
     cursor = conn.cursor(dictionary=True)
@@ -36,6 +37,7 @@ def listar_tatuadores():
     conn.close()
     return tatuadores
 
+
 @router.get("/tatuadores/{id}")
 def buscar_tatuador(id: int):
     conn = conectar()
@@ -46,6 +48,7 @@ def buscar_tatuador(id: int):
     if not tatuador:
         return {"erro": "Tatuador não encontrado"}
     return tatuador
+
 
 # POST /tatuadores — cadastra um novo tatuador
 @router.post("/tatuadores")
@@ -61,6 +64,7 @@ def criar_tatuador(tatuador: Tatuador):
     conn.commit()
     conn.close()
     return {"mensagem": "Tatuador cadastrado com sucesso"}
+
 
 # PUT /tatuadores/{id} — atualiza um tatuador existente
 @router.put("/tatuadores/{id}")
@@ -78,6 +82,7 @@ def atualizar_tatuador(id: int, tatuador: Tatuador):
     conn.close()
     return {"mensagem": "Tatuador atualizado com sucesso"}
 
+
 # DELETE /tatuadores/{id} — deleta um tatuador
 @router.delete("/tatuadores/{id}")
 def deletar_tatuador(id: int):
@@ -89,7 +94,7 @@ def deletar_tatuador(id: int):
         conn.commit()
         conn.close()
         return {"mensagem": "Tatuador deletado com sucesso"}
-    except Exception as erro:
+    except Exception:
         conn.rollback()
         conn.close()
         return {"erro": "Não foi possível excluir este tatuador. Verifique se ele possui agendamentos ou estilos cadastrados."}
