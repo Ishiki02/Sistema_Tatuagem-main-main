@@ -1,3 +1,4 @@
+protegerPagina()   // bloqueia a página se não tiver login
 const API = 'http://127.0.0.1:8000'
 const formCadastro = document.getElementById('form-cadastro')
 
@@ -10,7 +11,7 @@ formCadastro.addEventListener('submit', async (e) => {
     senha: document.getElementById('senha').value
   }
 
-  const resposta = await fetch(`${API}/usuarios`, {
+  const resposta = await fetchAutenticado(`${API}/usuarios`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(usuario)
