@@ -136,3 +136,4 @@ def criar_agendamento(agendamento: Agendamento):
     conn.commit()
     conn.close()
     return {"mensagem": "Agendamento cadastrado com sucesso", "idagendamento": novo_id}
+    
