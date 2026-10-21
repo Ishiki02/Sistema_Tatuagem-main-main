@@ -266,6 +266,16 @@ ALTER TABLE `tatuador_estilo`
   ADD CONSTRAINT `tatuador_estilo_ibfk_2` FOREIGN KEY (`idestilo`) REFERENCES `estilo` (`idestilo`);
 COMMIT;
 
+CREATE TABLE usuario (
+    idusuario INT AUTO_INCREMENT PRIMARY KEY,
+    nome      VARCHAR(100) NOT NULL,
+    email     VARCHAR(150) NOT NULL UNIQUE,
+    senha     VARCHAR(255) NOT NULL,                            -- aqui vai o hash, nunca a senha em si
+    tipo      ENUM('admin', 'funcionario', 'cliente') NOT NULL DEFAULT 'funcionario',
+    idcliente INT DEFAULT NULL,                                  -- só preenchido se tipo = 'cliente'
+    FOREIGN KEY (idcliente) REFERENCES cliente(idcliente)
+);
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
